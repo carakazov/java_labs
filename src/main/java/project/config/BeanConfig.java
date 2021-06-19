@@ -17,14 +17,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import project.controller.AdministratorController;
 import project.controller.RegistrationController;
-import project.dao.RoleDao;
-import project.dao.UserDao;
-import project.dao.impl.RoleDaoImpl;
-import project.dao.impl.UserDaoImpl;
+import project.controller.TicketController;
+import project.dao.*;
+import project.dao.impl.*;
+import project.service.FilmService;
 import project.service.RegistrationService;
-import project.service.impl.RegistrationServiceImpl;
-import project.service.impl.UserDetailsServiceImpl;
+import project.service.TicketService;
+import project.service.UserService;
+import project.service.impl.*;
 
 @Configuration
 @ComponentScan("project")
@@ -77,7 +79,9 @@ public class BeanConfig {
     @Bean
     public RegistrationController registrationController() {
         return new RegistrationController(
-            registrationService()
+            registrationService(),
+            userDao(),
+            ticketDao()
         );
     }
 
@@ -85,6 +89,61 @@ public class BeanConfig {
     public UserDetailsService userDetailsService() {
         return new UserDetailsServiceImpl(
             userDao()
+        );
+    }
+
+    @Bean
+    public UserService userService() {
+        return new UserServiceImpl(
+            userDao()
+        );
+    }
+
+    @Bean
+    public AdministratorController administratorController() {
+        return new AdministratorController()
+            .setUserService(userService());
+    }
+
+    @Bean
+    public FilmDao filmDao() {
+        return new FilmDaoImpl();
+    }
+
+    @Bean
+    public CinemaDao cinemaDao() {
+        return new CinemaDaoImpl();
+    }
+
+    @Bean
+    public TicketDao ticketDao() {
+        return new TicketDaoImpl();
+    }
+
+    @Bean
+    public FilmService filmService() {
+        return new FilmServiceImpl(
+            filmDao()
+        );
+    }
+
+    @Bean
+    public TicketService ticketService() {
+        return new TicketServiceImpl(
+            filmService(),
+            filmDao(),
+            cinemaDao(),
+            userDao(),
+            ticketDao()
+        );
+    }
+
+    @Bean
+    public TicketController ticketController() {
+        return new TicketController(
+            ticketService(),
+            cinemaDao(),
+            filmService()
         );
     }
 }

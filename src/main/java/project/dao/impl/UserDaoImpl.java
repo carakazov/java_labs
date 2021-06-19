@@ -1,5 +1,6 @@
 package project.dao.impl;
 
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -27,5 +28,15 @@ public class UserDaoImpl implements UserDao {
         return (User) entityManager.createQuery("SELECT user FROM users user WHERE user.login =:login")
             .setParameter("login", login)
             .getSingleResult();
+    }
+
+    @Override
+    public List<User> getAll() {
+        return entityManager.createQuery("SELECT user FROM users user").getResultList();
+    }
+
+    @Override
+    public void delete(String login) {
+        entityManager.remove(findByLogin(login));
     }
 }

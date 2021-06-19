@@ -6,21 +6,19 @@ import javax.persistence.*;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+@Entity(name = "cinemas")
 @Data
-@Entity(name = "users")
 @Accessors(chain = true)
-public class User {
+public class Cinema {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String login;
-
-    private String password;
+    private String address;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role",
-               joinColumns = @JoinColumn(name = "user_id"),
-               inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+    @JoinTable(name = "film_cinema",
+               joinColumns = @JoinColumn(name = "cinema_id"),
+               inverseJoinColumns = @JoinColumn(name = "film_id"))
+    private Set<Film> films;
 }

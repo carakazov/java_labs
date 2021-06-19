@@ -3,7 +3,7 @@
   Created by IntelliJ IDEA.
   User: carak
   Date: 19.06.2021
-  Time: 2:35
+  Time: 23:05
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -13,21 +13,12 @@
 </head>
 <body>
 <div>
-    <a href="/registration">Registration</a>
-</div>
-<div>
-    Hello: ${login}
-</div>
-<div>
-    <a href="/ticket/cinemas">Cinemas</a>
-</div>
-<div>
-    <c:forEach items="${tickets}" var="item">
+    <c:forEach items="${list}" var="item">
         <div>
-            Film: ${item.film.title}
+            Address: ${item.address}
         </div>
         <div>
-            Cinema: ${item.cinema.address}
+            <a href="/ticket/cinemas/${item.id}">Films</a>
         </div>
     </c:forEach>
 </div>

@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import project.dao.TicketDao;
+import project.dao.UserDao;
 import project.model.User;
 import project.service.RegistrationService;
 
@@ -14,18 +16,22 @@ import project.service.RegistrationService;
 @RestController
 public class RegistrationController {
     private final RegistrationService registrationService;
+    private final UserDao userDao;
+    private final TicketDao ticketDao;
 
     @GetMapping("/index")
     public ModelAndView index(Principal principal) {
         ModelAndView modelAndView = new ModelAndView("index");
         if(principal != null) {
+            User user = userDao.findByLogin(principal.getName());
+            modelAndView.addObject("tickets", ticketDao.getAllOfUser(user));
             modelAndView.addObject("login", principal.getName());
         }
         return modelAndView;
     }
 
     @GetMapping("/registration")
-    public ModelAndView registration(@RequestParam(required = false, name = "admin") boolean admin) {
+    public ModelAndView registration() {
         ModelAndView modelAndView = new ModelAndView("registration");
         User user = new User();
         modelAndView.addObject("user", user);
