@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<taglib>
+    <tlib-version>1.0</tlib-version>
+    <jsp-version>2.0</jsp-version>
+    <short-name>mytags</short-name>
+    <tag>
+        <name>showTag</name>
+        <tag-class>project.support.tag.ShowPropertyTagHandler</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>property</name>
+            <required>true</required>
+            <type>project.dto.IntellectualPropertyDto</type>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+    <tag>
+        <name>portfolio</name>
+        <tag-class>project.support.tag.PortfolioTagHandler</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>portfolioOwner</name>
+            <required>true</required>
+            <type>project.dto.UserDto</type>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+</taglib>
+
+
